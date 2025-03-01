@@ -1,0 +1,2 @@
+# Alicja_Zendarska_programowanie_zaawansowane
+Programowanie zaawansowane mini projekt
