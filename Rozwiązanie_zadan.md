@@ -20,17 +20,18 @@ class Time:
         return 0 <= self.hour < 24 and 0 <= self.minute < 60
 
     def __add__(self, other):
-        new_hour = self.hour + other.hour
-        new_minute = self.minute + other.minute
-        if new_minute >= 60:
-            new_hour += 1
-            new_minute -= 60
-        if new_hour >= 24:
-            new_hour -= 24
-        return Time(new_hour, new_minute)
+        if isinstance(other, Time):
+            new_hour = self.hour + other.hour
+            new_minute = self.minute + other.minute
+            if new_minute >= 60:
+                new_hour += new_minute // 60
+                new_minute %= 60
+            new_hour %= 24
+            return Time(new_hour, new_minute)
+        return NotImplemented
 
     def __lt__(self, other):
-        return (self.hour * 60 + self.minute) < (other.hour * 60 + other.minute)
+        return (self.hour, self.minute) < (other.hour, other.minute)
 
     def __str__(self):
         return f"{self.hour:02d}:{self.minute:02d}"
@@ -51,7 +52,6 @@ Posortuj listę wg różnych klucz na co najmniej 5 różnych sposobów. W komen
 
 ```python
 class Movie:
-    
     def __init__(self, title, year, rating):
         self.title = title
         self.year = year
@@ -59,7 +59,6 @@ class Movie:
 
     def __str__(self):
         return f"{self.title} ({self.year}) - Ocena: {self.rating}"
-
 
 movies = [
     Movie("Inception", 2010, 8.8),
@@ -74,8 +73,8 @@ movies = [
     Movie("Gladiator", 2000, 8.5),
 ]
 print("Sortowanie według roku:", [str(m) for m in sorted(movies, key=lambda m: m.year)])
-print("Sortowanie według oceny:", [str(m) for m in sorted(movies, key=lambda m: m.year)])
-print("Sortowanie według tytułu:", [str(m) for m in sorted(movies, key=lambda m: m.rating, reverse=True)])
+print("Sortowanie według oceny:", [str(m) for m in sorted(movies, key=lambda m: m.rating)])
+print("Sortowanie według tytułu:", [str(m) for m in sorted(movies, key=lambda m: m.title)])
 print("Sortowanie według długości tytułu:", [str(m) for m in sorted(movies, key=lambda m: len(m.title))])
 print("Sortowanie według ostatniej cyfry roku:", [str(m) for m in sorted(movies, key=lambda m: m.year % 10)])
 ```
