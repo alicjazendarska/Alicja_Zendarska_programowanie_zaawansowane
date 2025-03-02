@@ -256,7 +256,7 @@ class Car:
         return f"{self.make} {self.model} ({self.year}) - {self.mileage} km, ${self.price}"
 
 
-car = Car("Toyota", "Corolla", 2015, 120000, 10000)
+car = Car("Ford", "Mustang", 2020, 45000, 35000)
 car.drive(500)
 print("Po jeździe:", car)
 print("Wartość po amortyzacji:", car.calculate_depreciation())
